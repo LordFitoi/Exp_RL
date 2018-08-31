@@ -7,6 +7,7 @@ class Sys_Console:
         self.log = []
         self.x, self.y = coords[0], coords[1] 
         self.canvas = pygame.Surface((size[0],size[1]))
+        self.canvas_alpha = CONSOLE_ALPHA
         self.font_color = (255,255,255)
         self.font_background_color = (5,5,5)
         self.background_color = (5,5,5)
@@ -32,12 +33,15 @@ class Sys_Console:
             current_text += 1
         if len(self.log) > 6:
             self.log.pop(0)
+        self.canvas.set_alpha(self.canvas_alpha)
         surface.blit(self.canvas,(self.x,self.y))
 
 class Sys_Fov:
     def __init__(self):
         self.fov_color = (0,0,0)
-
+        self.fov_alpha = 150
+        self.map_fov = [[True for x in range(MAP_WIDTH)] for y in range(MAP_HEIGHT)]
+    
     def get_fov(self, coords ,map, distance):
         map_fov = libtcod.map_new(MAP_WIDTH, MAP_HEIGHT)
         for y in range(MAP_HEIGHT):
@@ -49,9 +53,12 @@ class Sys_Fov:
     def render(self, surface, map_fov):
         for y in range(MAP_HEIGHT):
             for x in range(MAP_WIDTH):
+                cell_fov = pygame.Surface((CELL_SIZE[0],CELL_SIZE[1]))
+                cell_fov.fill(self.fov_color)
                 if not libtcod.map_is_in_fov(map_fov,x,y):
-                    rect = pygame.Rect(x*CELL_SIZE[0],y*CELL_SIZE[1],CELL_SIZE[0],CELL_SIZE[1])
-                    pygame.draw.rect(surface,self.fov_color,rect)
+                    if not self.map_fov[y][x]: cell_fov.set_alpha(self.fov_alpha)
+                    surface.blit(cell_fov,(x*CELL_SIZE[0],y*CELL_SIZE[1]))
+                else: self.map_fov[y][x] = False
 
 class Sys_Turn:
     def __init__(self):
@@ -84,4 +91,14 @@ class Sys_Turn:
                     self.creatures[index].update(map, console)
                 print(self.creatures[index].ID,self.creatures[index].health_points)
         self.pause = True
+
+class Dta_System:
+    def __init__(self):
+        self.turn = Sys_Turn()
+        self.console = Sys_Console((15,SCREEN_HEIGHT-115),(300,115))
         
+    def render(self, surface):
+        self.console.render(surface)
+
+    def update(self, map):
+        self.turn.update(map, self.console)

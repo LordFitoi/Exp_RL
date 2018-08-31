@@ -10,7 +10,7 @@ def game_render():
     global SCREEN
     SCREEN.fill(BACKGROUND_COLOR)
     MAP.all_render(SCREEN)
-    SYSTEM["Console"].render(SCREEN)
+    SYSTEM.render(SCREEN)
     pygame.display.flip()
 
 def game_main_loop():
@@ -22,9 +22,9 @@ def game_main_loop():
             if event.type == pygame.QUIT: game_quit = True
             if event.type == pygame.KEYDOWN:
                 player.control(event, MAP.cells)
-                SYSTEM["Turn"].pause = False
+                SYSTEM.turn.pause = False
         MAP.update()
-        SYSTEM["Turn"].update(MAP, SYSTEM["Console"])
+        SYSTEM.update(MAP)
         game_render()
 
 def game_initialize():
@@ -34,13 +34,11 @@ def game_initialize():
     SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     Generator = Dta_Dungeon_Generator()
     MAP = Generator.create_dungeon()
-    SYSTEM = {
-        "Turn" : Sys_Turn(),
-        "Console" : Sys_Console((15,SCREEN_HEIGHT-115),(300,115))
-    }
-    SYSTEM["Turn"].creatures = MAP.creatures
+    SYSTEM = Dta_System()
+    SYSTEM.turn.creatures = MAP.creatures
 
 if __name__ == "__main__":
     game_initialize()
     game_main_loop()
+
 print("Hello World")

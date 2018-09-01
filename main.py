@@ -7,10 +7,9 @@ from data.dta_dungeon_generator import *
 
 
 def game_render():
-    global SCREEN
-    SCREEN.fill(BACKGROUND_COLOR)
-    MAP.all_render(SCREEN)
-    SYSTEM.render(SCREEN)
+    SYSTEM.all_render()
+    MAP.all_render(SYSTEM)
+    SYSTEM.gui_render()
     pygame.display.flip()
 
 def game_main_loop():
@@ -28,10 +27,9 @@ def game_main_loop():
         game_render()
 
 def game_initialize():
-    global SCREEN, MAP, PLAYER, SYSTEM
+    global MAP, SYSTEM
     pygame.init()
     pygame.font.init()
-    SCREEN = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
     Generator = Dta_Dungeon_Generator()
     MAP = Generator.create_dungeon()
     SYSTEM = Dta_System()

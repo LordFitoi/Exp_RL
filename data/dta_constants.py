@@ -10,6 +10,7 @@ MAP_HEIGHT = 40
 BACKGROUND_COLOR = (0,0,0)
 
 FONT = pygame.image.load(os.path.join(GAME_DIR,"arial12x12.png"))
+FONT_15 = ["Arial",15]
 CELL_SIZE = [12, 12]
 
 ACTOR_CHAR = [0, 1]
@@ -39,3 +40,4 @@ ENERGY_CAP = 1000
 FOV_COLOR = (0,0,0)
 FOV_ALPHA = 150
 CONSOLE_ALPHA = 190
+INVENTORY_ALPHA = 190

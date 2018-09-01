@@ -61,8 +61,8 @@ class Dungeon:
         self.rooms = []
         self.corridors = []
         self.creatures = []
-        self.sys_fov = Sys_Fov()
         self.map_fov = None 
+
     def char_render(self, surface, texture, size, coords, offset):
         surface.blit(texture, (coords[0]*size[0], coords[1]*size[1]), (offset[0]*size[0],offset[1]*size[1],size[0],size[1]))
 
@@ -83,20 +83,19 @@ class Dungeon:
             if libtcod.map_is_in_fov(self.map_fov,creature.x,creature.y):
                 creature.render(surface)
 
-    def fov_render(self, id, surface):
+    def fov_render(self, id, system):
         for creature in self.creatures:
             if creature.ID == id:
-                map_fov = self.sys_fov.get_fov((creature.x,creature.y),self,creature.fov)
-                self.sys_fov.render(surface, map_fov)
+                map_fov = system.fov.get_fov((creature.x,creature.y),self,creature.fov)
+                system.fov.render(system.screen, map_fov)
                 self.map_fov = map_fov
                 break
 
-    def all_render(self, surface):
-        self.map_render(surface)
-        self.obj_render(surface)
-        self.fov_render("Actor", surface)
+    def all_render(self, system):
+        self.map_render(system.screen)
+        self.obj_render(system.screen)
+        self.fov_render("Actor", system)
         
-                
     def get_player(self):
         for creature in self.creatures:
             if creature.ID == "Actor":

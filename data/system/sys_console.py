@@ -9,9 +9,7 @@ class Sys_Console:
         self.x, self.y = coords[0], coords[1] 
         self.canvas = pygame.Surface((size[0],size[1]))
         self.canvas_alpha = CONSOLE_ALPHA
-        self.font_color = (255,255,255)
-        self.font_background_color = BACKGROUND_COLOR
-        self.background_color = BACKGROUND_COLOR
+        self.background_color = COLORS["Black"]
 
     def add_text(self, text):
         self.log.append(text)
@@ -20,7 +18,7 @@ class Sys_Console:
         self.log.remove(text)
 
     def text_render(self, text):
-        text_render = self.font.render(text,False,self.font_color,self.font_background_color)
+        text_render = self.font.render(text,False,COLORS["Yellow"],COLORS["Black"])
         text_width = text_render.get_width()
         text_height = text_render.get_height()
         return [text_render, text_width, text_height]

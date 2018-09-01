@@ -4,10 +4,8 @@ GAME_DIR = os.path.dirname(sys.argv[0])
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 
-MAP_WIDTH = 50
+MAP_WIDTH = 40
 MAP_HEIGHT = 40
-
-BACKGROUND_COLOR = (0,0,0)
 
 FONT = pygame.image.load(os.path.join(GAME_DIR,"arial12x12.png"))
 FONT_15 = ["Arial",15]
@@ -36,8 +34,25 @@ MAX_ROOMS = 10
 MAX_SIZE = 10
 MIN_SIZE = 4
 VALUE_SIGN = lambda i:(1,-1)[i<0] 
+COLORS = {
+    "Black" : (0,0,0),
+    "Yellow" : (255,255,0),
+    "Red" : (255,0,0),
+    "White" : (255,255,255),
+}
 ENERGY_CAP = 1000
-FOV_COLOR = (0,0,0)
 FOV_ALPHA = 150
 CONSOLE_ALPHA = 190
 INVENTORY_ALPHA = 190
+WINDOWS = {
+    "Stats" : [[0,50],[120,105]],
+    "Status" : [[0,0],[SCREEN_WIDTH,50]]
+}
+WINDOW_CHAR= {
+    0 : [14,1], 1 : [15,1],
+    2 : [16,1], 3 : [17,1],
+    4 : [18,1], 5 : [19,1],
+    6 : [20,1], 7 : [21,1],
+    8 : [22,1], 9 : [23,1],
+    10 : [24,1],
+}

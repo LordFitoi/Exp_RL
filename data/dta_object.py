@@ -1,7 +1,7 @@
 import pygame
 from data.dta_constants import * 
 
-class Object:
+class Dta_Object:
     def __init__(self, coords, char):
         self.x , self.y = coords[0], coords[1]
         self.texture = FONT

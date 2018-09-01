@@ -7,9 +7,44 @@ class Sys_Player:
             "History" : None
         }
         self.stats = {
-            "Health" : 20,
-            "Defense" : 10,
-            "Speed" : 100,
-            "Hit" : 10 
+            "Attribute": {
+                "Strength" : {
+                    "Label" : "Str",
+                    "Points" : 10,
+                    "Bonus" : 0
+                },
+                "Learning" : {
+                    "Label" : "Lrn",
+                    "Points" : 10,
+                    "Bonus" : 0
+                },
+                "Dexterity" : {
+                    "Label" : "Dxt",
+                    "Points" : 10,
+                    "Bonus" : 0
+                },
+                "Percepcion" : {
+                    "Label" : "Prc",
+                    "Points" : 10,
+                    "Bonus" : 0
+                },
+            },
+            "Status": {
+                "Health" : {
+                    "Label" : "Hp",
+                    "Points" : 20,
+                },
+                "Speed" : {
+                    "Label" : "Spd",
+                    "Points" : 100,
+                },
+            }
         }
         self.inventory = []
+        self.actor = None
+        
+    def get_actor(self, map):
+        for creature in map.creatures:
+            if creature.ID == "Actor":
+                self.actor = creature
+                break

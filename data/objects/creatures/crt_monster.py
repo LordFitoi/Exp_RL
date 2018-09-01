@@ -7,6 +7,6 @@ class Crt_Monster(Obj_Creature):
         self.CHAR = CRE_CHAR
         Obj_Creature.__init__(self, coords, self.CHAR)
         self.AI= True
-        self.speed_points = 89
+        self.speed_points = 100
         self.fov = 20
     

@@ -10,11 +10,16 @@ class Obj_Fighter:
         self.hit_points = stats["Hit"]
         self.energy_amount = ENERGY_CAP
         self.fov = 10
+        self.equipment = {
+            "Head" : None,
+            "Body" : None,
+            "Girdle" : None,
+            "Boots" : None
+        }
 
     def get_energy(self):
         speed_amount = libtcod.random_get_int(0,100,self.speed_points)
         self.energy_amount = ENERGY_CAP-speed_amount
-
 
     def get_block_amount(self):
         return libtcod.random_get_int(0,1,self.defense_points)
@@ -34,7 +39,7 @@ class Obj_Fighter:
         block_amount = other.get_block_amount()
         total_amount = damage_amount - block_amount
         console.add_text(str(self.ID)+" attacks "+str(other.ID))
-        if other.get_miss_amount(self):
+        if not other.get_miss_amount(self):
             if total_amount > 0:
                 console.add_text(str(other.ID)+" recive "+str(total_amount)+" of damage.")
                 return total_amount

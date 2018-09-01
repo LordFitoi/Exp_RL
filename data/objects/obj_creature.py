@@ -4,9 +4,9 @@ from data.dta_object import *
 from data.objects.obj_fighter import *
 from data.dta_constants import *
 
-class Obj_Creature(Object, Obj_Fighter):
+class Obj_Creature(Dta_Object, Obj_Fighter):
     def __init__(self, coords, char):
-        Object.__init__(self, coords, char)
+        Dta_Object.__init__(self, coords, char)
         stats = {
             "Health" : 20,
             "Defense" : 10,

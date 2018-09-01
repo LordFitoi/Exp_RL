@@ -62,7 +62,7 @@ class Dungeon:
         self.corridors = []
         self.creatures = []
         self.map_fov = None 
-
+        self.fov_coords = None
     def char_render(self, surface, texture, size, coords, offset):
         surface.blit(texture, (coords[0]*size[0], coords[1]*size[1]), (offset[0]*size[0],offset[1]*size[1],size[0],size[1]))
 
@@ -83,29 +83,32 @@ class Dungeon:
             if libtcod.map_is_in_fov(self.map_fov,creature.x,creature.y):
                 creature.render(surface)
 
-    def fov_render(self, id, system):
+    def fov_render(self, id, surface, system):
         for creature in self.creatures:
             if creature.ID == id:
-                map_fov = system.fov.get_fov((creature.x,creature.y),self,creature.fov)
-                system.fov.render(system.screen, map_fov)
-                self.map_fov = map_fov
+                self.fov_coords = [creature.x,creature.y]
                 break
+        if self.fov_coords != None:
+            map_fov = system.fov.get_fov(self.fov_coords,self,creature.fov)
+            system.fov.render(surface, map_fov)
+            self.map_fov = map_fov
 
-    def all_render(self, system):
-        self.map_render(system.screen)
-        self.obj_render(system.screen)
-        self.fov_render("Actor", system)
+    def all_render(self, surface, system):
+        self.map_render(surface)
+        self.obj_render(surface)
+        self.fov_render("Actor", surface, system)
         
     def get_player(self):
         for creature in self.creatures:
             if creature.ID == "Actor":
                 return creature
 
-    def update(self):
+    def update(self, system):
         for creature in self.creatures:
             creature.get_energy()
             if creature.health_points <= 0:
                 self.creatures.remove(creature)
+                system.console.add_text(creature.ID+" was killed.")
 
 class Dta_Dungeon_Generator:
     def __init__(self):

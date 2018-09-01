@@ -7,9 +7,8 @@ from data.dta_dungeon_generator import *
 
 
 def game_render():
+    MAP.all_render(SYSTEM.canvas, SYSTEM)
     SYSTEM.all_render()
-    MAP.all_render(SYSTEM)
-    SYSTEM.gui_render()
     pygame.display.flip()
 
 def game_main_loop():
@@ -22,7 +21,7 @@ def game_main_loop():
             if event.type == pygame.KEYDOWN:
                 player.control(event, MAP.cells)
                 SYSTEM.turn.pause = False
-        MAP.update()
+        MAP.update(SYSTEM)
         SYSTEM.update(MAP)
         game_render()
 
